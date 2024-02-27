@@ -1,0 +1,8 @@
+# Ignore Intellij files and folders
+/.idea/
+
+# Ignore custom Helm values file
+/my-values.yaml
+
+# Ignore generated manifest file for viewing/testing
+out.yaml

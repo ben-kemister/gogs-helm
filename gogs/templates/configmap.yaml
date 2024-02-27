@@ -1,0 +1,75 @@
+#
+# This configMap contains the configuration file(s) for gogs
+#
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "gogs.fullname" . }}
+  labels:
+    {{- include "gogs.labels" . | nindent 4 }}
+data:
+  # The gogs config file exposed to the container at /data/gogs/conf/app.ini
+  app.ini: |-
+    ; This config is supplied via a Kubernetes ConfigMap resource
+    
+    BRAND_NAME = Gogs
+    RUN_USER   = git
+    RUN_MODE   = prod
+
+    [database]
+    TYPE = {{ .Values.gogsConfig.database.type }}
+    HOST = {{ .Values.gogsConfig.database.host }}
+    NAME     = {{ .Values.gogsConfig.database.name }}
+    USER     = {{ .Values.gogsConfig.database.user }}
+    PASSWORD = {{ .Values.gogsConfig.database.password | quote }}
+    {{ if eq .Values.gogsConfig.database.type "sqlite3" }}
+    ; For "sqlite3" only, make sure to use absolute path.
+    PATH = {{ .Values.gogsConfig.database.path }}
+    {{ end }}
+
+    [repository]
+    ROOT = /data/git/gogs-repositories
+
+    [server]
+    DOMAIN           = localhost
+    HTTP_PORT        = 3000
+    EXTERNAL_URL     = {{ .Values.gogsConfig.server.externalUrl }}
+    DISABLE_SSH      = false
+    SSH_PORT         = 2222
+    START_SSH_SERVER = false
+    OFFLINE_MODE     = false
+
+    [mailer]
+    ENABLED = false
+
+    [service]
+    REGISTER_EMAIL_CONFIRM = false
+    ENABLE_NOTIFY_MAIL     = false
+    DISABLE_REGISTRATION   = true
+    ENABLE_CAPTCHA         = false
+    REQUIRE_SIGNIN_VIEW    = false
+
+    [picture]
+    DISABLE_GRAVATAR        = false
+    ENABLE_FEDERATED_AVATAR = false
+
+    [session]
+    PROVIDER = file
+
+    [log]
+    MODE      = console, file
+    LEVEL     = Info
+    ROOT_PATH = /app/gogs/log
+
+    [security]
+    INSTALL_LOCK = true
+    SECRET_KEY   = {{ .Values.gogsConfig.security.secretKey }}
+    ; A comma separated list of hostnames that are explicitly allowed to be accessed within the local network.
+    ; For local webhooks to work you need to add the host(s) or '*' here see: https://github.com/gogs/gogs/discussions/7048
+    LOCAL_NETWORK_ALLOWLIST = {{ .Values.gogsConfig.security.localNetworkAllowList }}
+    
+    ; Additional configuration items not templated with helm
+    {{- .Values.gogsConfig.extras | nindent 4 }}
+    
+    
