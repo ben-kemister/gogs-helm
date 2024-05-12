@@ -9,7 +9,7 @@ metadata:
 spec:
   ingress:
     - ports:
-      - port: {{ .Values.service.port }}                                                                                                                                           │
+      - port: {{ .Values.service.port }}
         protocol: TCP
   podSelector:
     matchLabels:
