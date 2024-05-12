@@ -78,17 +78,25 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
+securityContext:
+  # Security context to not violate PodSecurity "restricted:latest"
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
   # runAsUser: 1000
+  # readOnlyRootFilesystem: true
 
 service:
   type: ClusterIP
   port: 3000
+
+networkPolicy:
+  # Creates a NetworkPolicy which allows ingress to the Gogs pod via the service port (3000)
+  create: true
 
 ingress:
   enabled: false
