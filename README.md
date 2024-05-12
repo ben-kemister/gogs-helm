@@ -21,11 +21,11 @@ For the values that can be used see: https://github.com/gogs/gogs/blob/main/conf
 Using the chart's default values:
 
 ```shell
-helm install test-deploy --dry-run .\gogs\ > out.yaml
+helm install test-deploy --dry-run .\gogs\ > test.yaml
 ```
 
 With a custom `my-values.yaml` file:
 
 ```shell
-helm install test-deploy --dry-run -f .\my-values.yaml .\gogs\ > out.yaml
+helm install test-deploy --dry-run -f .\my-values.yaml .\gogs\ > test.yaml
 ```

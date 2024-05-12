@@ -6,3 +6,4 @@
 
 # Ignore generated manifest file for viewing/testing
 out.yaml
+/test.yaml
