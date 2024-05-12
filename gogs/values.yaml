@@ -80,10 +80,11 @@ podSecurityContext: {}
 
 securityContext:
   # The most secure setting which still allow the container to run
-  # Unfortunately this is still violates PodSecurity "restricted:latest"
+  # Unfortunately these setting still violates PodSecurity "restricted:latest"
   allowPrivilegeEscalation: false
   seccompProfile:
     type: RuntimeDefault
+  # The container runs a 'chown' over its' data files which will fail if not running as root
   runAsNonRoot: false
 
 service:
