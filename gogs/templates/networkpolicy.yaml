@@ -4,7 +4,7 @@ kind: NetworkPolicy
 metadata:
   labels:
     {{- include "gogs.labels" . | nindent 4 }}
-  name: {{ include "gogs.name" . }}-allow-service-ingress
+  name: {{ include "gogs.fullname" . }}-allow-service-ingress
   namespace: {{ .Release.Namespace | quote }}
 spec:
   ingress:
