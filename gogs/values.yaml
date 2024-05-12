@@ -79,16 +79,12 @@ podSecurityContext: {}
   # fsGroup: 2000
 
 securityContext:
-  # Security context to not violate PodSecurity "restricted:latest"
+  # The most secure setting which still allow the container to run
+  # Unfortunately this is still violates PodSecurity "restricted:latest"
   allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-      - ALL
-  runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
-  # runAsUser: 1000
-  # readOnlyRootFilesystem: true
+  runAsNonRoot: false
 
 service:
   type: ClusterIP
